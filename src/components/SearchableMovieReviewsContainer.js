@@ -2,27 +2,27 @@ import React, { Component } from 'react';
 import 'isomorphic-fetch';
 import MovieReviews from './MovieReviews'
 
-const NYT_API_KEY = 'your-key-here';
-const URL = 'https://api.nytimes.com/svc/movies/v2/reviews/search.json?'
-            + `api-key=${NYT_API_KEY}`;
+const NYT_API_KEY = 'iQ5yfkvEGgx3BX8ovJqsmZiztAKx4Wbd';
+const BASE_URL = 'https://api.nytimes.com/svc/movies/v2/reviews/search.json?'
+            + `api-key=${NYT_API_KEY}&query=`;
 
 // Code SearchableMovieReviewsContainer Here
 class SearchableMovieReviewsContainer extends Component {
-    constructor() {
-        super();
+    state = {
+        searchTerm: '',
+        reviews: []
+    };
 
-        this.state = {
-            searchTerm = '',
-            reviews: []
-        };
-    }
+    handleSearchInputChanges = event =>
+    this.setState({ searchTerm: event.target.value });
+
 
     handleSubmit = event => {
         event.preventDefault();
 
-        fetch(URL.concat(this.state.searchTerm))
+        fetch(BASE_URL.concat(this.state.searchTerm))
         .then(res => res.json)
-        .then(response => this.setState({searchTerm: response.results }));
+        .then(response => this.setState({ reviews: response.results }));
     };
 
 
@@ -34,7 +34,7 @@ class SearchableMovieReviewsContainer extends Component {
                 <input
                 id="search-input"
                 type="text"
-                style={{ width: 300}}
+                style={{ width: 300 }}
                 onChange={this.handleSearchInputChanges}
                 />
                 <button type="submit"> Submit</button>
@@ -47,4 +47,4 @@ class SearchableMovieReviewsContainer extends Component {
     }
 
 }
-export default SearchableMovieReviewsContainer
+export default SearchableMovieReviewsContainer;
